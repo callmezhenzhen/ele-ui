@@ -9,12 +9,16 @@
   </el-drawer>
 </template>
 <script>
-import { ref } from 'vue'
+import { computed, ref, toRefs } from 'vue'
 export default {
   name: 'leftDrawer',
-  setup() {
-    const drawer = ref(false)
+  props: {
+    showDrawer: Boolean
+  },
+  setup(props) {
     const direction = ref('ltr')
+    const { showDrawer } = toRefs(props)
+    const drawer = computed(() => showDrawer.value)
     return {
       drawer,
       direction
