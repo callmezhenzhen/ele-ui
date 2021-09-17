@@ -1,6 +1,5 @@
 <template>
   <el-menu
-    default-active="1-1-1"
     @select="menuSelected"
     class="menu"
   >
@@ -76,7 +75,8 @@ export default {
       })
       if (menuItem) {
         const group = menuItem.group[groupIndex]
-        context.emit('menuSelected', { 
+        // 通知父组件选择了导航，并携带相关信息
+        context.emit('menuSelected', {
           menuTitle: menuItem.title, 
           menuIndex: menuItem.index, 
           groupTitle: group.title,

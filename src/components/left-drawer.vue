@@ -1,34 +1,42 @@
 <template>
   <el-drawer
-    class="drawer"
-    title="我是标题"
-    v-model="drawer"
+    :model-value="showDrawer"
     :direction="direction"
+    @closed="closed"
+    :z-index="2020"
+    size="100%"
     destroy-on-close>
-    <span>我来啦!</span>
+    <template #title>
+      <el-breadcrumb class="dra-breadcrumb" separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item>{{curMenu.menuTitle}}</el-breadcrumb-item>
+        <el-breadcrumb-item>{{curMenu.groupTitle}}</el-breadcrumb-item>
+      </el-breadcrumb>
+    </template>
   </el-drawer>
 </template>
 <script>
-import { computed, ref, toRefs } from 'vue'
+import { ref } from 'vue'
 export default {
   name: 'leftDrawer',
+  emits: ['drawerClosed'],
   props: {
-    showDrawer: Boolean
+    showDrawer: Boolean,
+    curMenu: Object
   },
-  setup(props) {
+  setup(props, context) {
     const direction = ref('ltr')
-    const { showDrawer } = toRefs(props)
-    const drawer = computed(() => showDrawer.value)
+    const closed = () => { context.emit('drawerClosed')}
     return {
-      drawer,
-      direction
+      direction,
+      closed
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.drawer {
-  z-index: 2020;
-  width: 100%;
+.dra-breadcrumb {
+  position: relative;
+  left: 20%;
+  top: 0;
 }
 </style>
