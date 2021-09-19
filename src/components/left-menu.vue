@@ -9,7 +9,7 @@
         <span>{{menu.title}}</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item v-for="group in menu.group" :key="group.index" :index="group.index">{{group.title}}</el-menu-item>
+        <el-menu-item v-for="group in menu.group" :key="group.index" :index="group.index">{{group.label}}</el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
   </el-menu>
@@ -17,49 +17,63 @@
 <script>
 import { ref } from 'vue'
 const menuList = [{
-  title: 'Button 按钮',
+  name: 'button', // 组件文件夹
+  title: 'Button 按钮', // 一级菜单
   index: '1',
   group: [{
-    title: '基础用法',
+    file: 'basic', // 组件文件
+    label: '基础用法', // 二级菜单
     index: '1-1-1'
   }, {
-    title: '禁用状态',
+    file: 'disabled',
+    label: '禁用状态',
     index: '1-2-1'
   }, {
-    title: '图标按钮',
+    file: 'icon',
+    label: '图标按钮',
     index: '1-3-1'
   }, {
-    title: '按钮组',
+    file: 'group',
+    label: '按钮组',
     index: '1-4-1'
   }]
 }, {
+  name: 'icon',
   title: 'Icon 图标',
   index: '2',
   group: [{
-    title: '基础用法',
+    file: 'basic',
+    label: '基础用法',
     index: '2-1-1'
   },{
-    title: '禁用状态',
+    file: 'disabled',
+    label: '禁用状态',
     index: '2-2-1'
   }]
 }, {
+  name: 'input',
   title: 'Input 输入框',
   index: '3',
   group: [{
-    title: '基础用法',
+    file: 'basic',
+    label: '基础用法',
     index: '3-1-1'
   },{
-    title: '禁用状态',
+    file: 'disabled',
+    label: '禁用状态',
     index: '3-2-1'
   }]
 }, {
+  name: 'switch',
   title: 'Switch 开关',
   index: '4',
   group: [{
-    title: '基础用法',
+    file: 'basic',
+    label: '基础用法',
     index: '4-1-1'
   },{
-    title: '禁用状态',
+    file: 'disabled',
+    label: '禁用状态',
     index: '4-2-1'
   }]
 }]
@@ -73,15 +87,15 @@ export default {
         groupIndex = item.group.findIndex(el => el.index === index)
         return groupIndex > -1
       })
+      const createMenuInfo = (menuItem, groupIndex) => {
+        const { name, title } = menuItem
+        const { label, index, file } = menuItem.group[groupIndex]
+        return { name, title, label, index, file }
+      }
       if (menuItem) {
-        const group = menuItem.group[groupIndex]
+        const menuInfo = createMenuInfo(menuItem, groupIndex)
         // 通知父组件选择了导航，并携带相关信息
-        context.emit('menuSelected', {
-          menuTitle: menuItem.title, 
-          menuIndex: menuItem.index, 
-          groupTitle: group.title,
-          groupIndex: group.index
-        })
+        context.emit('menuSelected', menuInfo)
       }
     }
     return {
