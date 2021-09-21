@@ -1,8 +1,16 @@
 <template>
-  <i class="el-icon-edit"></i>
-  <i class="el-icon-share"></i>
-  <i class="el-icon-delete"></i>
-  <el-button type="primary" icon="el-icon-search">搜索</el-button>
+  <el-icon :size="30">
+    <edit />
+  </el-icon>
+  <el-icon color="#409EFC" :size="30">
+    <share />
+  </el-icon>
+  <el-icon :size="30">
+    <delete />
+  </el-icon>
+  <el-icon class="is-loading" :size="30">
+    <loading />
+  </el-icon>
 </template>
 <script>
 export default {
